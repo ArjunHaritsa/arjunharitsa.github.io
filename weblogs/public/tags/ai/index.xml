@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AI on Arjun's Portfolio</title><link>http://localhost:1313/portfolio/tags/ai/</link><description>Recent content in AI on Arjun's Portfolio</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 12 Jan 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/portfolio/tags/ai/index.xml" rel="self" type="application/rss+xml"/><item><title>Quantization in deep learning architectures</title><link>http://localhost:1313/portfolio/posts/en/quantization/</link><pubDate>Mon, 12 Jan 2026 00:00:00 +0000</pubDate><guid>http://localhost:1313/portfolio/posts/en/quantization/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Quantization, in deep learning is a lossy compression process of mapping weights of a neural network model from real values to fixed bit-width integers.&lt;/p&gt;
+&lt;p&gt;The process of quantization, can be effectively applied either while training a network or post training the network - depending on the input data distribution within a dataset and the kernels distribution within the network. The mapping constraints a network however, for a chosen bit-width of integers while yielding an affordable accuracy drop in the model&amp;rsquo;s performance.&lt;/p&gt;</description><content>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Quantization, in deep learning is a lossy compression process of mapping weights of a neural network model from real values to fixed bit-width integers.&lt;/p&gt;
+&lt;p&gt;The process of quantization, can be effectively applied either while training a network or post training the network - depending on the input data distribution within a dataset and the kernels distribution within the network. The mapping constraints a network however, for a chosen bit-width of integers while yielding an affordable accuracy drop in the model&amp;rsquo;s performance.&lt;/p&gt;
+&lt;p&gt;Quantization, improves memory footprint of a model; specifically, in resource constrained devices. In tailored hardwares - consisting of &lt;a href="https://en.wikipedia.org/wiki/Hardware_acceleration"&gt;Accelerators&lt;/a&gt; or CPUs supporting &lt;a href="https://en.wikipedia.org/wiki/Single_instruction,_multiple_data"&gt;&lt;strong&gt;SIMD&lt;/strong&gt;&lt;/a&gt; quantization can help in vectorization of weights (learnt parameters) and activations (intermediate computations between layers of a network) in accordance with the core-matrix multiplier register arrays of the hardware; thereby, increasing the inference speed of a model significantly.&lt;/p&gt;
+&lt;h3 id="formulation"&gt;Formulation&lt;/h3&gt;
+&lt;hr&gt;
+&lt;p&gt;Mathematically, the weights of a kernel undergoes transformation from $\mathbb{R}$ domain to $\mathbb{Z}$ as,&lt;/p&gt;
+&lt;p&gt;$$ \{ x \ \epsilon \ \mathbb{R} \ | \ \alpha \leq x \leq \beta\ \} \ \mapsto \{ x_q \ \epsilon \ \mathbb{Z} \ | \ \alpha_q \leq x_q \leq \beta_q \ \} $$&lt;/p&gt;
+&lt;p&gt;The range of the integer values are decided by $b$-bits of integer representation chosen for mapping $x \ \mapsto x_q$.&lt;/p&gt;
+&lt;p&gt;For example, if the range of $x$ is $[-8.05, 8.08]$ - by choosing $b=8$, the quantized space will have $2^b=2^8=256$ values. The quantized space can be uniformly or non-uniformly spread across the ranges where only integers can exist between $[-128, 127]$. For instance, in an uniform distribution $\forall x$ each $x$ will be mapped to a nearby integer value $x_q$ representing a constant scale of $(-8.0 + x_q * (1/256))$ in the original domain.&lt;/p&gt;
+&lt;p&gt;We will see in the later section, distinct approaches of achieving the scaling factor of the quantization process. For most of the practical cases in edge computing, the uniform (or linear) integer mapping is far than enough to represent a mathematical approximation to which an outcome belongs to (an example can be &lt;a href="https://www.ibm.com/think/topics/classification-machine-learning"&gt;classification problem&lt;/a&gt;).&lt;/p&gt;
+&lt;h3 id="transformations"&gt;Transformations&lt;/h3&gt;
+&lt;hr&gt;
+&lt;p&gt;Theoretically, the weights can be mapped from $\mathbb{R}$ to $\mathbb{Z}$ either by,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Linear spacing (uniform): Quantized values are equally spaced in the original $\mathbb{R}$ domain and mapped linearly&lt;/li&gt;
+&lt;li&gt;Non-Linear spacing (non-uniform): A careful mapping of the $\mathbb{R}$ values depending on the part of the data that often occurs frequently but has data at larger extremes as well. The scaling depends on the position at which the bit value is represented at&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="linear-transformation"&gt;Linear Transformation&lt;/h4&gt;
+&lt;hr&gt;
+&lt;p&gt;Let us consider linear scaling for the transformation and define the quantization process as:
+$$
+\begin{equation}
+x_q = round(x/s - b) \tag{1} \label{eq:quantization}
+\end{equation}
+$$&lt;br&gt;
+achieves the integer mapping. Note that, the &amp;lsquo;&lt;em&gt;round off&lt;/em&gt;&amp;rsquo; introduces noise into the conversion.&lt;/p&gt;
+&lt;p&gt;Later, to rescale the data into a real value, de-quantization process will be applied through:
+$$
+\begin{equation}
+x = s(x_q + b) \tag{2} \label{eq:dequantization}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;When $x$ is at $\alpha$ the scaling imposes $\alpha_q$ after transformation. Similarly, $\beta_q$ will be the final outcome when $x$ reaches $\beta$. In reference to equation (\ref{eq:quantization}), we can confide the values of $s$ and $b$ by formulating a linear systems of equation&lt;a href="https://leimao.github.io/article/Neural-Networks-Quantization"&gt;$^1$&lt;/a&gt; as we are trying to solve for $s$ and $b$ that imposes the minima and maxima of the transformation,
+$$
+\begin{equation}
+\alpha=s(\alpha_q + b) \tag{3} \label{eq:alpha scaling}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+\beta=s(\beta_q + b) \tag{4} \label{eq:beta scaling}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;To solve for $b$, we can rearrange $s$ in the equation (\ref{eq:alpha scaling}) to be&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+s=(\alpha / (\alpha_q + b)) \tag{1a} \label{eq:alpha scaling rearrangement}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;substituting equation (\ref{eq:alpha scaling rearrangement}) in equation (\ref{eq:beta scaling}) we get,&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+\beta = {(\alpha \beta_q + \alpha b) \over (\alpha_q + b)} \tag{4a}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+\alpha \beta_q - \beta \alpha_q + b (\alpha - \beta) = 0 \tag{4b}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+b = {(\alpha \beta_q - \beta \alpha_q) \over (\beta - \alpha)} \tag{4c} \label{eq:unrounded zero point}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;Technically, equation (\ref{eq:unrounded zero point}) cannot be a fractional number. It is the zero-point or the base point from which the scaled numbers are distributed. This could be derived by keeping $x=0$ in equation (\ref{eq:quantization}), resulting in mapped $x_q = round(-b)$. Therefore we must impose,&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+\boxed{z = -round({(\alpha \beta_q - \beta \alpha_q) \over (\beta - \alpha)})} \tag{5} \label{eq:zero point}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;and substituting $b$ from equation (\ref{eq:unrounded zero point}) in equation (\ref{eq:alpha scaling}) we can simplify the equation in terms of $s$ as,&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+\beta = {s (\beta_q (\beta - \alpha) + \alpha \beta_q - \beta \alpha_q) \over (\beta - \alpha)} \tag{3a}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+s = {\beta (\beta - \alpha) \over \beta_q (\beta - \alpha) + \alpha \beta_q - \beta \alpha_q}\tag{3b}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+\boxed{s = {(\beta - \alpha) \over (\beta_q - \alpha_q)}} \tag{6}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;We can finally redefine the quantization transformation process from equation (\ref{eq:quantization}) to
+$$
+\begin{equation}
+x_q = round((x/s) + z)
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;where the mapping constraint must be $\{ \alpha_q &amp;lt;= x_q &amp;lt;= \beta_q \}$ and the values needs to be clipped off if they are beyond the boundary i.e.,
+$$
+\begin{equation}
+\boxed{x_q = clip(round((x/s) + z), \alpha_q, \beta_q)} \tag{7} \label{eq:final quantization}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;The de-quantization transformation process from equation (\ref{eq:dequantization}) can then be defined as,&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+\boxed{x = s (x_q - z)} \tag{8} \label{eq:final dequantization}
+\end{equation}
+$$&lt;/p&gt;
+&lt;h4 id="non-linear-transformation"&gt;Non-Linear Transformation&lt;/h4&gt;
+&lt;hr&gt;
+&lt;p&gt;A non-uniform transformation extends the linear transformation merely by two additional steps,&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;By compressing the weights of a kernel with a non-linear function and then linear transforming the data&lt;/li&gt;
+&lt;li&gt;At inference, by decompressing the quantized data - while computing the intermediates of the forward pass&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We can mathematically formulate these steps by extending the equation (\ref{eq:final quantization}) to define quantization process as:&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+\boxed{x_q = clip(({round(f(x) * \lambda) \over s}) + z), \alpha_q, \beta_q)} \tag{9} \label{eq:final non-linear quantization}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;Note that, $\forall x$ the $\lambda$ in equation (\ref{eq:final non-linear quantization}) controls the squashing factor of the near by values. The choice of $\lambda$ is optional but depends upon the compression function that is applied. The $\lambda$ often is the resolution dial of the overall compression function and will be within the space $\{ \alpha &amp;lt; \lambda &amp;lt; \beta \}$.&lt;/p&gt;
+&lt;p&gt;The dequantization process however running at the inference, has to decompress the data with an exact inverse function of the equation (\ref{eq:final non-linear quantization}) as,&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+\boxed{x = s (({f^{-1}(x_q) \over \lambda}) - z)} \tag{10} \label{eq: final non-linear dequantization}
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;The functions $f(x)$ and $f^{-1}(x_q)$ are to be chosen carefully depending on the architecture and the kernel distribution of the network, however the squashing factor $\lambda$ will be a parameter learnt while training the network or post training - for a chosen (de-)compression function.&lt;/p&gt;
+&lt;p&gt;In deep learning, often the kernel appears to have &lt;em&gt;Gaussian distribution&lt;/em&gt; with few outliers. Lets consider, &lt;code&gt;arcsinh&lt;/code&gt; a specialized non-linear function often used in LLMs to compress 16-bit float to 4-bit integers!&lt;/p&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://leimao.github.io/article/Neural-Networks-Quantization"&gt;Leo MAO&amp;rsquo;s Log Book - Quantization for Neural Networks&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/pdf/1712.05877"&gt;Quantization and Training of Neural Networks for Efficient
+Integer-Arithmetic-Only Inference&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content></item></channel></rss>
