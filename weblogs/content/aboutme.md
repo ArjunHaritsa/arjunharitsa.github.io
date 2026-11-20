@@ -1,9 +1,10 @@
 +++
 title = "About Me"
+type = "about"
 hideComments = true
 cover = "images/profilephoto-como.jpg"
 coverCaption = "It's not often the destination but the people that you journey with..."
-profileCover = true
+showPostCount = true
 readingTime = false
 +++
 

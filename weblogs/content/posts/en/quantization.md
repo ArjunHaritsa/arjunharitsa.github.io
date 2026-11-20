@@ -4,6 +4,7 @@ date = 2026-01-12
 tags = ["AI", "TensorflowLite"]
 categories = ["DeepLearning"]
 language = "en"
+math = true
 +++
 
 ## Introduction

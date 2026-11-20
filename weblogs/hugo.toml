@@ -1,7 +1,7 @@
 baseURL = "https://arjunharitsa.github.io/portfolio/"
-languageCode = "en-us"
+locale = "en-US"
 title = "Arjun's Portfolio"
-theme = "xterminal"
+theme = "polar"
 
 [pagination]
   pagerSize = 5
@@ -9,13 +9,22 @@ theme = "xterminal"
 [markup.goldmark.renderer]
   unsafe = true
 
+[markup.highlight]
+  # Polar styles Chroma's CSS classes so code follows the scheme and accent.
+  noClasses = false
+
 [params]
   author = "Arjun Haritsa"
-  themeColor = "blue"
+  accent = "blue"
   readingTime = true
+  mainSections = ["posts"]
+  postLanguages = [
+    { code = "en", label = "English" },
+    { code = "kn", label = "ಕನ್ನಡ" },
+  ]
 
 [params.logo]
-  logoText = " Arjun Haritsa"
+  text = " Arjun Haritsa"
 
 [params.giscus]
   repo = "ArjunHaritsa/portfolio"
@@ -26,17 +35,17 @@ theme = "xterminal"
 [[menu.main]]
   identifier = "posts"
   name = "󰗚 Posts"
-  url = "/posts"
+  pageRef = "/posts"
   weight = 3
 
 [[menu.main]]
   identifier = "experience"
   name = "󰅩 Experience"
-  url = "/experience"
+  pageRef = "/experience"
   weight = 5
 
 [[menu.main]]
   identifier = "about"
   name = "󰘨 About Me"
-  url = "/aboutme"
+  pageRef = "/aboutme"
   weight = 10

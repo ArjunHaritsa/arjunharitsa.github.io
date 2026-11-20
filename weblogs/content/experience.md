@@ -5,7 +5,6 @@ hideComments = true
 readingTime = false
 cover = "images/profilephoto-office.jpg"
 coverCaption = " Reutlingen, Germany"
-experienceCover = true
 candidateName = " Arjun Haritsa"
 currentRole = " Software Architect"
 shortInfo = " Machine Learning Deployment for Edge Inference"

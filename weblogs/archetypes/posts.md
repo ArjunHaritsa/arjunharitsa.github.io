@@ -3,5 +3,6 @@ title = ""
 date = {{ time.Now.Format "2006-01-02" }}
 tags = [""]
 categories = [""]
+math = false
 {{ $dirPath := path.Split .File.Path }}language = {{ path.BaseName $dirPath.Dir }}
 +++
