@@ -9,6 +9,10 @@ theme = "polar"
 [markup.goldmark.renderer]
   unsafe = true
 
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 4
+
 [markup.highlight]
   # Polar styles Chroma's CSS classes so code follows the scheme and accent.
   noClasses = false
@@ -24,7 +28,8 @@ theme = "polar"
   ]
 
 [params.logo]
-  text = " Arjun Haritsa"
+  icon = ""
+  text = "Arjun Haritsa"
 
 [params.giscus]
   repo = "ArjunHaritsa/portfolio"
