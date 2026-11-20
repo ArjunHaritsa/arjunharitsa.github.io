@@ -1,6 +1,6 @@
-# portfolio
+# ArjunHaritsa.github.io
 
-Source of [arjunharitsa.github.io/portfolio](https://arjunharitsa.github.io/portfolio/) — personal site
+Source of [arjunharitsa.github.io](https://arjunharitsa.github.io/) — personal site
 and blog (English and ಕನ್ನಡ) built with [Hugo](https://gohugo.io) and the
 [Polar](https://github.com/ArjunHaritsa/hugo-theme-polar) theme (git submodule).
 
@@ -9,8 +9,8 @@ and blog (English and ಕನ್ನಡ) built with [Hugo](https://gohugo.io) and 
 Requires Hugo ≥ 0.158 (the standard edition is enough; CI uses 0.170.0).
 
 ```sh
-git clone --recurse-submodules https://github.com/ArjunHaritsa/portfolio.git
-cd portfolio/weblogs
+git clone --recurse-submodules https://github.com/ArjunHaritsa/ArjunHaritsa.github.io.git
+cd ArjunHaritsa.github.io/weblogs
 hugo server
 ```
 
