@@ -1,2 +1,4 @@
-public/*
-resources/*
+# Hugo build output and caches
+weblogs/public/
+weblogs/resources/_gen/
+.hugo_build.lock

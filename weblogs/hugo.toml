@@ -1,29 +1,27 @@
-baseurl = "https://arjunharitsa.github.io/portfolio/"
+baseURL = "https://arjunharitsa.github.io/portfolio/"
 languageCode = "en-us"
 title = "Arjun's Portfolio"
 theme = "xterminal"
-pagination.pagerSize = 5
+
+[pagination]
+  pagerSize = 5
 
 [markup.goldmark.renderer]
   unsafe = true
 
-cacheDir = "cache"
-
-[caches]
-  [caches.images]
-    dir = ':cacheDir/images'
-
 [params]
-  contentTypeName = "posts"
+  author = "Arjun Haritsa"
   themeColor = "blue"
-  ThemeVariant = "glossy-dark"
-  showMenuItems = 3
-  fullWidthTheme = false
-  centerTheme = true
   readingTime = true
 
 [params.logo]
   logoText = " Arjun Haritsa"
+
+[params.giscus]
+  repo = "ArjunHaritsa/portfolio"
+  repoId = "R_kgDOQ2uxrA"
+  category = "General"
+  categoryId = "DIC_kwDOQ2uxrM4C0yih"
 
 [[menu.main]]
   identifier = "posts"
