@@ -5,6 +5,13 @@ hideComments = true
 cover = "images/profilephoto-como.jpg"
 coverCaption = "It's not often the destination but the people that you journey with..."
 showPostCount = true
+role = "Software Architect · Edge-AI"
+location = "Reutlingen, Germany"
+links = [
+  { name = "LinkedIn", url = "https://www.linkedin.com/in/arjunharitsa/", icon = "" },
+  { name = "GitHub", url = "https://github.com/ArjunHaritsa", icon = "" },
+  { name = "Flickr", url = "https://www.flickr.com/photos/arjunharitsa/", icon = "" },
+]
 readingTime = false
 +++
 
@@ -24,6 +31,4 @@ Feel free to explore the content and reach out if you'd like to connect.
 
 ##  Get in Touch
 
-You can find me on various platforms or drop a comment on the post you read.
-
-# [](https://www.linkedin.com/in/arjunharitsa/) [](https://www.flickr.com/photos/arjunharitsa/) [](https://github.com/ArjunHaritsa)
+You can find me on the platforms linked above, or drop a comment on any post you read.
