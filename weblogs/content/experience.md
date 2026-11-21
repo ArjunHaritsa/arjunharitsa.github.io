@@ -9,7 +9,7 @@ candidateName = " Arjun Haritsa"
 currentRole = " Software Architect"
 shortInfo = " Machine Learning Deployment for Edge Inference"
 showcaseText = "    "
-showcaseLanguages = ["C++", "Python", "TFLite", "TensorFlow 2.x", "PyTorch 2.x"]
+showcaseLanguages = [" C++", " Python", " TFLite", " TensorFlow 2.x", " PyTorch 2.x"]
 +++
 
 #
